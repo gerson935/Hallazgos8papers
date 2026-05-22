@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hallazgos de Investigación — Datathon ESAN 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Literata:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0E14;
+  --surface: #111620;
+  --surface2: #171E2C;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #E8EAF0;
+  --muted: rgba(232,234,240,0.5);
+  --faint: rgba(232,234,240,0.25);
+
+  --q1: #00C9A7;
+  --q1-dim: rgba(0,201,167,0.12);
+  --q1-border: rgba(0,201,167,0.3);
+
+  --q2: #F6A623;
+  --q2-dim: rgba(246,166,35,0.1);
+  --q2-border: rgba(246,166,35,0.3);
+
+  --q3: #FF6B6B;
+  --q3-dim: rgba(255,107,107,0.1);
+  --q3-border: rgba(255,107,107,0.3);
+
+  --beyond: #A78BFA;
+  --beyond-dim: rgba(167,139,250,0.1);
+  --beyond-border: rgba(167,139,250,0.3);
+
+  --gold: #F6A623;
+  --teal: #00C9A7;
+  --red: #FF6B6B;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Literata', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 4rem 2rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--teal);
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--teal);
+}
+
+.hero-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 2.5rem;
+}
+
+.stat-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--teal);
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.4;
+  max-width: 120px;
+}
+
+/* ── ANSWERS SECTION ── */
+.answers-section {
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.answers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  gap: 1.5rem;
+}
+
+.answer-card {
+  border-radius: 14px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.answer-card.q1 {
+  background: var(--q1-dim);
+  border: 1px solid var(--q1-border);
+}
+
+.answer-card.q2 {
+  background: var(--q2-dim);
+  border: 1px solid var(--q2-border);
+}
+
+.answer-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.answer-card.q1::before { background: var(--q1); }
+.answer-card.q2::before { background: var(--q2); }
+
+.answer-q-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.q1 .answer-q-label { color: var(--q1); }
+.q2 .answer-q-label { color: var(--q2); }
+
+.answer-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.answer-verdict {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.q1 .answer-verdict { color: var(--q1); }
+.q2 .answer-verdict { color: var(--q2); }
+
+.answer-body {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.mode-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mode-list li {
+  font-size: 0.85rem;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.5;
+}
+
+.mode-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.q1 .mode-num { background: rgba(0,201,167,0.2); color: var(--q1); }
+.q2 .mode-num { background: rgba(246,166,35,0.2); color: var(--q2); }
+
+.approach-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.approach-item {
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.approach-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--q2);
+  margin-bottom: 0.25rem;
+}
+
+.approach-text {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── FILTER BAR ── */
+.filter-section {
+  max-width: 1100px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-label-txt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-right: 0.5rem;
+}
+
+.filter-btn {
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+
+.filter-btn.active-all { border-color: var(--text); color: var(--text); background: rgba(255,255,255,0.06); }
+.filter-btn.active-q1 { border-color: var(--q1); color: var(--q1); background: var(--q1-dim); }
+.filter-btn.active-q2 { border-color: var(--q2); color: var(--q2); background: var(--q2-dim); }
+.filter-btn.active-q3 { border-color: var(--q3); color: var(--q3); background: var(--q3-dim); }
+
+/* ── PAPERS GRID ── */
+.papers-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.papers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.paper-card {
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+
+.paper-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-1px);
+}
+
+.paper-card.hidden { display: none; }
+
+.paper-header {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.paper-accent {
+  width: 5px;
+  flex-shrink: 0;
+  border-radius: 0;
+}
+
+.tag-q1 .paper-accent { background: var(--q1); }
+.tag-q2 .paper-accent { background: var(--q2); }
+.tag-q3 .paper-accent { background: var(--q3); }
+
+.paper-header-inner {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.paper-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--faint);
+  min-width: 48px;
+  line-height: 1;
+  padding-top: 4px;
+  flex-shrink: 0;
+}
+
+.paper-meta { flex: 1; min-width: 200px; }
+
+.paper-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.tag-q1-badge { background: var(--q1-dim); color: var(--q1); border: 1px solid var(--q1-border); }
+.tag-q2-badge { background: var(--q2-dim); color: var(--q2); border: 1px solid var(--q2-border); }
+.tag-q3-badge { background: var(--q3-dim); color: var(--q3); border: 1px solid var(--q3-border); }
+.tag-beyond-badge { background: var(--beyond-dim); color: var(--beyond); border: 1px solid var(--beyond-border); }
+.tag-peru-badge { background: rgba(255,82,82,0.15); color: #FF7F7F; border: 1px solid rgba(255,82,82,0.3); }
+.tag-latam-badge { background: rgba(255,200,80,0.1); color: #FFD060; border: 1px solid rgba(255,200,80,0.25); }
+
+.paper-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 0.3rem;
+}
+
+.paper-citation {
+  font-size: 0.78rem;
+  color: var(--faint);
+  font-style: italic;
+}
+
+.paper-toggle {
+  background: none;
+  border: none;
+  color: var(--faint);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 1.25rem;
+  transition: color 0.2s, transform 0.3s;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.paper-toggle.open { transform: rotate(180deg); color: var(--text); }
+
+/* ── PAPER BODY ── */
+.paper-body {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding: 0 1.75rem 1.75rem 1.75rem;
+  margin-left: 5px;
+}
+
+.paper-body.open { display: block; }
+
+.paper-key-finding {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0 1.25rem;
+  border-left: 3px solid;
+}
+
+.tag-q1 .paper-key-finding { border-color: var(--q1); }
+.tag-q2 .paper-key-finding { border-color: var(--q2); }
+.tag-q3 .paper-key-finding { border-color: var(--q3); }
+
+.finding-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.5rem;
+}
+
+.finding-text {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.sections-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.paper-section {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+}
+
+.section-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-head {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.section-sol .section-head { color: var(--q1); }
+.section-risk .section-head { color: var(--q2); }
+.section-beyond .section-head { color: var(--beyond); }
+.section-fin .section-head { color: var(--q3); }
+
+.section-content {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.section-content strong { color: var(--text); font-weight: 500; }
+
+.metric-pills {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+
+.metric-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.pill-teal { background: rgba(0,201,167,0.15); color: var(--q1); }
+.pill-gold { background: rgba(246,166,35,0.15); color: var(--q2); }
+.pill-red { background: rgba(255,107,107,0.15); color: var(--q3); }
+.pill-purple { background: rgba(167,139,250,0.15); color: var(--beyond); }
+
+.pitch-quote {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.pitch-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.pitch-text {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ── BEYOND SECTION ── */
+.beyond-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+.beyond-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.beyond-card {
+  background: var(--beyond-dim);
+  border: 1px solid var(--beyond-border);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.beyond-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--beyond);
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.beyond-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--beyond);
+  margin-bottom: 0.5rem;
+}
+
+.beyond-body {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.beyond-source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--beyond);
+  opacity: 0.6;
+  margin-top: 0.75rem;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  max-width: 1100px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+}
+.divider hr {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero, .answers-section, .filter-section, .papers-section, .beyond-section {
+  animation: fadeUp 0.5s ease both;
+}
+
+.answers-section { animation-delay: 0.1s; }
+.filter-section { animation-delay: 0.2s; }
+.papers-section { animation-delay: 0.25s; }
+
+@media (max-width: 640px) {
+  .answers-grid { grid-template-columns: 1fr; }
+  .paper-header-inner { gap: 0.75rem; }
+  .paper-num { font-size: 1.4rem; min-width: 36px; }
+  .sections-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Datathon ESAN 2026 · Síntesis de Investigación Bibliográfica</div>
+  <h1>Hallazgos de <em>8 Papers</em><br>Científicos</h1>
+  <p class="hero-sub">Riesgo crediticio, datos alternativos e inclusión financiera — lo que dice la literatura reciente para FinanCrece S.A.</p>
+  <div class="stat-row">
+    <div class="stat">
+      <span class="stat-num">8</span>
+      <span class="stat-label">Papers analizados (2019–2026)</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Modos de solución validados</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Enfoques de perfiles de riesgo</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Hallazgos más allá del encargo</span>
+    </div>
+  </div>
+</div>
+
+<!-- ANSWERS TO GROUP QUESTIONS -->
+<div class="answers-section">
+  <div class="section-label">Respuestas directas a las preguntas del grupo</div>
+  <div class="answers-grid">
+
+    <div class="answer-card q1">
+      <div class="answer-q-label">Pregunta 1</div>
+      <h3>¿Los papers brindan posibles modos de solución o formas de buscar necesidades?</h3>
+      <div class="answer-verdict">Sí — 4 modos concretos e implementables.</div>
+      <p class="answer-body">No solo validan el enfoque general; dan recetas técnicas específicas que los ingenieros del equipo pueden aplicar directamente al dataset de FinanCrece.</p>
+      <ul class="mode-list">
+        <li><span class="mode-num q1">1</span> <span><strong>Comparación multi-modelo con baseline logístico:</strong> Logística → RF → XGBoost/LightGBM. Validado en 6 de los 8 papers como arquitectura estándar de la industria.</span></li>
+        <li><span class="mode-num q1">2</span> <span><strong>Aprendizaje sensible al costo (cost-sensitive learning):</strong> Ponderar falsos negativos 10× más que falsos positivos. Parámetro <code>scale_pos_weight</code> en XGBoost o <code>class_weight</code> en scikit-learn.</span></li>
+        <li><span class="mode-num q1">3</span> <span><strong>Pipeline de datos alternativos para clientes sin historial:</strong> Los 1,830 registros con <code>exp_sf</code> nulo activan un sub-modelo que pesa más <code>ingreso</code>, <code>dias_lab</code>, <code>nivel_ahorro</code> y <code>zona</code>.</span></li>
+        <li><span class="mode-num q1">4</span> <span><strong>Explicabilidad dual SHAP global + local:</strong> Importancia de variables para el modelo completo + razones individuales por caso rechazado. TreeSHAP sobre Gradient Boosting.</span></li>
+      </ul>
+    </div>
+
+    <div class="answer-card q2">
+      <div class="answer-q-label">Pregunta 2</div>
+      <h3>¿Los papers brindan información sobre implementación de perfiles de riesgo para crédito?</h3>
+      <div class="answer-verdict">Sí — 3 enfoques diferenciados.</div>
+      <p class="answer-body">La literatura no solo menciona que hay perfiles — da metodologías concretas de segmentación con umbrales, variables y criterios de decisión crediticia.</p>
+      <ul class="approach-list">
+        <li class="approach-item">
+          <div class="approach-letter">ENFOQUE A — Bandas de probabilidad predicha</div>
+          <div class="approach-text">GBDT produce media 0.81 para morosos y 0.24 para buenos pagadores, con baja varianza. Eso da base empírica para 3 bandas: &lt;0.30 (verde), 0.30–0.55 (ámbar), &gt;0.55 (rojo). <em>Fuente: Chen (2026)</em></div>
+        </li>
+        <li class="approach-item">
+          <div class="approach-letter">ENFOQUE B — Segmentación por características del cliente</div>
+          <div class="approach-text">Dividir cartera por nivel de patrimonio (Low/High Wealth) y actividad financiera (RFM). El modelo alternativo funciona mejor en segmento de bajo patrimonio — el no bancarizado de FinanCrece. <em>Fuente: Roa et al. (2021)</em></div>
+        </li>
+        <li class="approach-item">
+          <div class="approach-letter">ENFOQUE C — Segmentación por nivel de exclusión financiera</div>
+          <div class="approach-text">4 grupos según historial: invisible (exp_sf nulo), sub-bancarizado, semi-bancarizado, bancarizado. Umbrales más permisivos para los primeros, más estrictos para los últimos. Gini 82% vs 64% del bureau tradicional. <em>Fuente: Rachbini et al. (2025)</em></div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"><hr></div>
+
+<!-- FILTER -->
+<div class="filter-section">
+  <div class="filter-bar">
+    <span class="filter-label-txt">Filtrar por:</span>
+    <button class="filter-btn active-all" onclick="filterPapers('all', this)">Todos (8)</button>
+    <button class="filter-btn" onclick="filterPapers('q1', this)">Modos de Solución</button>
+    <button class="filter-btn" onclick="filterPapers('q2', this)">Perfiles de Riesgo</button>
+    <button class="filter-btn" onclick="filterPapers('q3', this)">Datos Alternativos</button>
+  </div>
+</div>
+
+<!-- PAPERS -->
+<div class="papers-section">
+  <div class="section-label" style="margin-bottom:1.5rem">Los 8 papers — análisis detallado</div>
+  <div class="papers-grid" id="papersGrid">
+
+    <!-- PAPER 1 -->
+    <div class="paper-card tag-q1" data-query="q1 q3">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">01</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q1-badge">Modo Solución</span>
+              <span class="tag tag-q3-badge">Thin File</span>
+            </div>
+            <div class="paper-title">Comparing ML and Deep Learning Models in Student Credit Scoring: A Case Study in Vietnam</div>
+            <div class="paper-citation">Thuy et al. · Risks (MDPI) · 2025 · DOI: 10.3390/risks13050099</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">En mercados emergentes con clientes sin historial bancario (thin file), los métodos ensemble superan consistentemente a la regresión logística. El modelo más interpretable (RF) y el más preciso (DNN) tienen propósitos distintos — la elección depende del objetivo, no de la moda técnica.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-sol">
+            <div class="section-icon">🔧</div>
+            <div class="section-head">Modo de Solución</div>
+            <div class="section-content">Arquitectura de comparación validada: <strong>Logística (baseline) → RF → GB → DNN</strong>. Cada modelo tiene fortaleza distinta: RF para equilibrio, GB para recall (detectar morosos), DNN para accuracy general, SVM para precisión conservadora.</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">RF F1: 0.79</span>
+              <span class="metric-pill pill-gold">DNN Acc: 85.5%</span>
+              <span class="metric-pill pill-red">GB Recall: 70%</span>
+            </div>
+          </div>
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Perfil de Riesgo</div>
+            <div class="section-content">Discriminación binaria (elegible/no elegible) con métricas por clase. Variables no tradicionales como <strong>gastos de vida, matrícula, trabajo a tiempo parcial</strong> actúan como proxies de comportamiento financiero cuando no hay historial.</div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá</div>
+            <div class="section-content">Confirma el <strong>principio de alineación modelo-objetivo</strong>: si el objetivo es minimizar defaults (FinanCrece hoy), priorizar GB por su recall. Si el objetivo es expandir cartera, priorizar RF por su balance. La elección es estratégica, no técnica.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch</div>
+          <div class="pitch-text">"Evidencia de Vietnam 2025 — mercado emergente comparable al peruano — confirma que métodos ensemble superan en 10–15 puntos de F1 a la regresión logística actual de FinanCrece en poblaciones sin historial bancario, sin sacrificar interpretabilidad cuando se combina con SHAP."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 2 -->
+    <div class="paper-card tag-q1" data-query="q1 q2">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">02</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q1-badge">Modo Solución</span>
+              <span class="tag tag-q2-badge">Perfil Riesgo</span>
+            </div>
+            <div class="paper-title">Trade Credit Risk Assessment for Foreign Trade Enterprises Based on Explainable Machine Learning</div>
+            <div class="paper-citation">Liao, Jiao & Zhang · Information (MDPI) · 2025 · DOI: 10.3390/info16100831</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">No todos los errores cuestan igual. Aprobar a un moroso cuesta ~10 veces más que rechazar a un buen pagador. El paper prueba que ajustar el modelo para penalizar falsos negativos reduce el costo total de clasificación de 5.611 a 4.964, detectando 3× más casos de alto riesgo — sin perder accuracy general.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-sol">
+            <div class="section-icon">🔧</div>
+            <div class="section-head">Modo de Solución</div>
+            <div class="section-content"><strong>LightGBM + ajuste de pesos + Bagging ensemble + SHAP/LIME combinados.</strong> Fórmula de costo: Costo = FPR + 10×FNR. Aplicable directamente: en XGBoost usar <code>scale_pos_weight</code>, en scikit-learn usar <code>class_weight={0:1, 1:10}</code>.</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">AUC: 0.973</span>
+              <span class="metric-pill pill-teal">Acc: 0.980</span>
+              <span class="metric-pill pill-red">FNR: 0.028 ↓</span>
+            </div>
+          </div>
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Perfil de Riesgo</div>
+            <div class="section-content">Perfil binario <strong>alto riesgo / bajo riesgo</strong> con umbral ajustado por costo. El ajuste de pesos mueve el umbral de decisión hacia mayor sensibilidad en la clase minoritaria — equivalente a hacer las 3 bandas de política crediticia más conservadoras en la zona ámbar.</div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá</div>
+            <div class="section-content">Integración <strong>SHAP global + LIME local</strong> en un solo framework de auditoría. SHAP dice qué variables importan al modelo. LIME dice por qué un cliente específico fue rechazado. Juntos satisfacen tanto el regulador (SBS) como al cliente rechazado (Ley 29571).</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch</div>
+          <div class="pitch-text">"Siguiendo el framework de costos asimétricos de Liao et al. (2025), nuestro modelo asigna penalización 10× a los falsos negativos. Esto redujo la tasa de error costoso de 8.8% a 2.8% en datasets análogos, directamente alineado con el objetivo de FinanCrece de reducir mora sin excluir masivamente clientes solventes."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 3 -->
+    <div class="paper-card tag-q2" data-query="q1 q2 q3">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">03</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q1-badge">Modo Solución</span>
+              <span class="tag tag-q2-badge">Perfil Riesgo</span>
+              <span class="tag tag-q3-badge">Datos Alt.</span>
+            </div>
+            <div class="paper-title">Credit Scoring Prediction for SMEs Based on Alternative Data and Gradient Boosting Algorithms</div>
+            <div class="paper-citation">Chen · Information Resources Management Journal · 2026 · DOI: 10.4018/IRMJ.400759</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">GBDT con datos alternativos produce una separación limpia entre buenos y malos pagadores: probabilidad media de mora para clientes malos = 0.81, para buenos = 0.24, con varianza estable. Esa separación es la base técnica para definir umbrales de política crediticia. ROI positivo en 12–18 meses post-implementación.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-sol">
+            <div class="section-icon">🔧</div>
+            <div class="section-head">Modo de Solución</div>
+            <div class="section-content"><strong>Pipeline multi-fuente:</strong> datos transaccionales + comportamiento digital + variables financieras → GBDT con selección automática de features → risk stratification por distribución de probabilidades. Las variables alternativas de este paper mapean directamente a <code>ingreso</code>, <code>zona</code>, <code>nivel_educ</code> de FinanCrece.</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">P(mora|malo): 0.81</span>
+              <span class="metric-pill pill-gold">P(mora|bueno): 0.24</span>
+            </div>
+          </div>
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Perfil de Riesgo</div>
+            <div class="section-content"><strong>Estratificación por distribución de probabilidades.</strong> La separación 0.24 vs 0.81 define naturalmente 3 bandas: verde (&lt;0.30), ámbar (0.30–0.55), roja (&gt;0.55). Estos no son umbrales arbitrarios — son el resultado de la distribución empírica del modelo.</div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá — ROI calculado</div>
+            <div class="section-content">Reducción de mora: <strong>15–20%</strong>. Reducción de costos de auditoría manual: <strong>25–30%</strong>. Costo de implementación: solo <strong>8–12%</strong> del ahorro total. Retorno positivo en <strong>12–18 meses</strong>. Estos números son para la diapositiva de impacto en negocio.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch</div>
+          <div class="pitch-text">"Chen (2026) demuestra que GBDT con datos alternativos genera retorno positivo en 12–18 meses al reducir mora 15–20% y costos de auditoría 25–30%, con costos de implementación que representan solo el 8–12% del ahorro total — marco de referencia conservador para cuantificar el impacto de nuestra propuesta en FinanCrece."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 4 -->
+    <div class="paper-card tag-q2" data-query="q1 q2">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">04</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q2-badge">Perfil Riesgo</span>
+              <span class="tag tag-q1-badge">Modo Solución</span>
+              <span class="tag tag-beyond-badge">Counterfactuals</span>
+            </div>
+            <div class="paper-title">Resolving Interpretability Conflicts of XGBoost in Credit Risk Assessment: Evidence From A/B Testing</div>
+            <div class="paper-citation">Zhang, Chen, Zhang, Chen & Li · J. Organizational & End User Computing · 2026 · DOI: 10.4018/JOEUC.402038</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">XGBoost es el estándar de facto en crédito regulado — pero tiene un problema conocido: SHAP global y SHAP local a veces se contradicen. El paper resuelve esto y valida el modelo en producción vía A/B testing. A 30% de tasa de aprobación, reduce mora de 8.7% (baseline) a 7.3% mejorando retorno ajustado por riesgo de 6.8% a 7.8%.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-sol">
+            <div class="section-icon">🔧</div>
+            <div class="section-head">Modo de Solución</div>
+            <div class="section-content"><strong>XGBoost con verificación de consistencia SHAP global-local.</strong> Si la variable más importante globalmente (e.g., <code>clasif_sbs</code>) no es el principal driver en casos individuales rechazados, hay un problema de explicabilidad auditoriamente indefendible. La solución: validar coherencia antes de deploy.</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">AUC: 0.867</span>
+              <span class="metric-pill pill-teal">KS: 0.553</span>
+              <span class="metric-pill pill-gold">Default ↓: 8.7→7.3%</span>
+            </div>
+          </div>
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Perfil de Riesgo</div>
+            <div class="section-content"><strong>Perfilamiento a nivel de portfolio</strong> con trade-off riesgo-retorno. A cada tasa de aprobación (20%, 30%, 40%) corresponde una curva de mora esperada. El paper muestra cómo elegir el punto óptimo según el apetito de riesgo de FinanCrece.</div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá — Counterfactuals</div>
+            <div class="section-content"><strong>Explicaciones contrafactuales accionables:</strong> "¿Qué cambiaría en este cliente para que sea aprobado?" Ej: "Si tu ratio deuda/ingreso baja de 4.2× a 2.8×, tu probabilidad de mora cae de 0.67 a 0.38." Es un producto adicional de valor — guía de mejora crediticia para el cliente rechazado.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch</div>
+          <div class="pitch-text">"Validado por A/B testing en entornos de finanzas reguladas (Zhang et al., 2026), XGBoost correctamente implementado alcanza AUC 0.867 y KS 0.553, reduciendo la tasa de default del portfolio en 1.4pp sobre modelos alternativos bajo la misma tasa de aprobación."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 5 -->
+    <div class="paper-card tag-q3" data-query="q3 q1">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">05</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q3-badge">Datos Alt.</span>
+              <span class="tag tag-q1-badge">Modo Solución</span>
+              <span class="tag tag-beyond-badge">Profit-Based</span>
+            </div>
+            <div class="paper-title">The Value of Big Data for Credit Scoring: Enhancing Financial Inclusion Using Mobile Phone Data</div>
+            <div class="paper-citation">Óskarsdóttir et al. · Applied Soft Computing Journal · 2019 · DOI: 10.1016/j.asoc.2018.10.004</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">Datos de comportamiento no financiero (comportamiento de llamadas telefónicas) solos alcanzan AUC 0.87. Combinados con datos sociodemográficos básicos: AUC 0.923. No usar información positiva de estos clientes lleva a una caída de hasta 47.5% en disponibilidad de crédito — es el costo real de excluir clientes sin historial.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-sol">
+            <div class="section-icon">🔧</div>
+            <div class="section-head">Modo de Solución</div>
+            <div class="section-content"><strong>Uso positivo de datos alternativos:</strong> no penalizar la ausencia de historial, sino premiar señales de comportamiento estable. En FinanCrece: <code>dias_lab</code> alto, <code>nivel_ahorro</code> alto, <code>vivienda</code>=PROPIA son señales positivas que compensan <code>exp_sf</code> nulo. La lógica es la misma aunque los datos sean distintos.</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">SD+CB AUC: 0.923</span>
+              <span class="metric-pill pill-gold">CB solo AUC: 0.870</span>
+              <span class="metric-pill pill-red">-47.5% crédito sin datos+</span>
+            </div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá — EMP Framework</div>
+            <div class="section-content"><strong>Expected Maximum Profit (EMP):</strong> en lugar de optimizar AUC, optimizar el beneficio económico real del modelo. EMP = f(LGD, EAD, ROI del préstamo). Si FinanCrece tiene datos de ticket promedio y LGD, se puede calcular el profit exact de cada variante del modelo.</div>
+          </div>
+          <div class="paper-section section-fin">
+            <div class="section-icon">🌎</div>
+            <div class="section-head">Inclusión Financiera</div>
+            <div class="section-content">Propone usar datos alternativos <strong>solo en sentido positivo</strong>: variables que favorecen al cliente sin historial se usan; variables que lo penalizarían se neutralizan. Esto satisface tanto el objetivo de negocio como el regulatorio de no discriminación.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch</div>
+          <div class="pitch-text">"La literatura fundacional (Óskarsdóttir et al., 2019) demuestra que excluir clientes por falta de historial reduce la disponibilidad de crédito hasta 47.5% sin justificación predictiva — los datos de comportamiento laboral y ahorro disponibles en el dataset de FinanCrece son suficientes para evaluarlos correctamente."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 6 -->
+    <div class="paper-card tag-q3" data-query="q3 q1 q2">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">06</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q3-badge">Datos Alt.</span>
+              <span class="tag tag-peru-badge">Co-autor Perú</span>
+              <span class="tag tag-latam-badge">Latinoamérica</span>
+              <span class="tag tag-q2-badge">Perfil Riesgo</span>
+            </div>
+            <div class="paper-title">Super-app Behavioral Patterns in Credit Risk Models: Financial, Statistical and Regulatory Implications</div>
+            <div class="paper-citation">Roa, Correa-Bahnsen et al. · Expert Systems With Applications · 2021 · DOI: 10.1016/j.eswa.2020.114486</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">Con co-autor de la PUCP Lima y validado en dos países latinoamericanos, este paper demuestra que datos de comportamiento app (pagos, errores de pago, uso de crédito) son especialmente predictivos para clientes de bajo patrimonio y jóvenes — exactamente el segmento no bancarizado de FinanCrece. Los datos alternativos brillan donde el bureau score no discrimina.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-sol">
+            <div class="section-icon">🔧</div>
+            <div class="section-head">Modo de Solución</div>
+            <div class="section-content"><strong>TreeSHAP sobre Stochastic Gradient Boosting</strong> aplicado en producción. Las variables más predictivas son: errores de pago (señal de dificultad de flujo), nivel de uso de crédito (endeudamiento relativo), y antigüedad en la plataforma (equivalente a <code>exp_sf</code> en FinanCrece).</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">Validado 2 países LATAM</span>
+              <span class="metric-pill pill-red">Mejor en bajo patrimonio</span>
+            </div>
+          </div>
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Perfil de Riesgo</div>
+            <div class="section-content">Segmentación por <strong>Wealth Score (Low/High) × Device Score × RFM</strong>. El modelo alternativo tiene impacto mayor en Low Wealth + Low RFM (p&lt;0.01). Eso valida hacer perfiles diferenciados: política más permisiva para clientes sin historial con señales de estabilidad.</div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá — Argumento Regulatorio</div>
+            <div class="section-content">El Basel Committee recomienda tratar a las fintech como bancos. Los autores van más lejos: <strong>los reguladores deberían promover activamente el uso de datos alternativos</strong> porque aumentan la bancarización sin elevar el riesgo sistémico. Argumento para usar con el jurado: la SBS debería fomentar este enfoque.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch (el más poderoso geográficamente)</div>
+          <div class="pitch-text">"Investigación latinoamericana con participación peruana (Roa et al., 2021) valida que datos de comportamiento no financiero son especialmente predictivos para segmentos de bajo patrimonio en contextos de baja bancarización. El modelo propuesto para FinanCrece aplica esta lógica a 1,830 clientes actualmente invisibles para el sistema crediticio formal."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 7 -->
+    <div class="paper-card tag-q3" data-query="q3">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">07</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q3-badge">Datos Alt.</span>
+              <span class="tag tag-beyond-badge">Gap Sudamérica</span>
+            </div>
+            <div class="paper-title">A Scoping Review of Alternative Credit Scoring Literature</div>
+            <div class="paper-citation">Njuguna & Sowon · ACM COMPASS · 2021 · DOI: 10.1145/3460112.3471972</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece</div>
+          <div class="finding-text">Revisión sistemática de toda la literatura disponible a 2021 sobre scoring crediticio alternativo. Dos hallazgos clave: (1) 1.7 mil millones de adultos sin acceso a servicios financieros son principalmente de economías en desarrollo, y (2) Sudamérica es una de las regiones más subrepresentadas en investigación empírica — lo que hace que el trabajo de FinanCrece sea inherentemente novedoso.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-fin">
+            <div class="section-icon">🌎</div>
+            <div class="section-head">Taxonomía de Datos Alternativos</div>
+            <div class="section-content">El paper clasifica los datos alternativos disponibles en la literatura: datos móviles (CDR, airtime), huellas digitales (e-commerce, redes sociales), psicométricos, pagos de servicios (utilidades, renta), y comportamentales. En FinanCrece: <code>zona</code>, <code>nivel_educ</code>, <code>dias_lab</code> son datos comportamentales y de estabilidad.</div>
+          </div>
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Credit Invisible vs Unscored</div>
+            <div class="section-content"><strong>Credit unscored:</strong> tiene algo de historial pero insuficiente (clientes con <code>exp_sf</code> bajo). <strong>Credit invisible:</strong> sin ningún contacto formal con el sistema financiero (<code>exp_sf</code> nulo, 1,830 en el dataset). Estrategia diferente para cada grupo — esto es taxonomía de perfiles de riesgo.</div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá — El Gap Peruano</div>
+            <div class="section-content">Los modelos de países desarrollados <strong>no se extrapolan directamente</strong> a contextos como Perú. Las señales de informalidad, geografía regional (las 25 zonas del dataset) y estructura del empleo configuran perfiles de riesgo distintos. Esto justifica construir un modelo específico para FinanCrece.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch</div>
+          <div class="pitch-text">"Una revisión sistemática global (Njuguna & Sowon, 2021) identifica Sudamérica como una de las regiones con menor investigación empírica en scoring crediticio alternativo. Nuestro modelo contribuye a cerrar esa brecha con evidencia específica del mercado peruano, donde las 25 regiones geográficas y los patrones de empleo informal configuran perfiles de riesgo que los modelos importados no capturan."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 8 -->
+    <div class="paper-card tag-q3" data-query="q3 q2">
+      <div class="paper-header">
+        <div class="paper-accent"></div>
+        <div class="paper-header-inner">
+          <div class="paper-num">08</div>
+          <div class="paper-meta">
+            <div class="paper-tags">
+              <span class="tag tag-q3-badge">Datos Alt.</span>
+              <span class="tag tag-q2-badge">Perfil Riesgo</span>
+              <span class="tag tag-beyond-badge">Ecosistema ICS</span>
+            </div>
+            <div class="paper-title">Innovative Credit Scoring for Financial Inclusion: Systemic Barriers and Opportunities in Indonesia</div>
+            <div class="paper-citation">Rachbini et al. · Journal of Risk and Financial Management · 2025 · DOI: 10.3390/jrfm18080442</div>
+          </div>
+        </div>
+        <button class="paper-toggle" onclick="togglePaper(this)">▼</button>
+      </div>
+      <div class="paper-body">
+        <div class="paper-key-finding">
+          <div class="finding-label">Hallazgo central para FinanCrece — la estadística más poderosa del lote</div>
+          <div class="finding-text">Piloto gubernamental real con 30,666 empresas en Indonesia: el scoring con datos alternativos alcanzó Gini Index de 82% frente al 64% del bureau de crédito tradicional — 28 puntos porcentuales de mejora. Simultáneamente, la tasa de aprobación mejoró 5% sin incremento en mora. Indonesia y Perú comparten características estructurales: grandes sectores informales, reguladores nacionales activos, millones de micro-empresas sin historial crediticio formal.</div>
+        </div>
+        <div class="sections-row">
+          <div class="paper-section section-risk">
+            <div class="section-icon">🎯</div>
+            <div class="section-head">Perfil de Riesgo — 4 Segmentos</div>
+            <div class="section-content">Clasifica la cartera en 4 grupos según nivel de exclusión: <strong>(1) Credit Invisible</strong> (sin ningún historial), <strong>(2) Sub-bancarizado</strong> (historial mínimo), <strong>(3) Semi-bancarizado</strong>, <strong>(4) Bancarizado</strong>. El ICS tiene impacto máximo en el grupo 1 y decreciente hacia el 4. Umbral más permisivo para grupos 1–2, más estricto para 3–4.</div>
+            <div class="metric-pills">
+              <span class="metric-pill pill-teal">Gini ICS: 82%</span>
+              <span class="metric-pill pill-red">Gini bureau: 64%</span>
+              <span class="metric-pill pill-gold">Aprobación +5%</span>
+            </div>
+          </div>
+          <div class="paper-section section-beyond">
+            <div class="section-icon">✦</div>
+            <div class="section-head">Más Allá — Ecosistema Completo</div>
+            <div class="section-content">Documenta el <strong>ciclo de vida del modelo en producción</strong>: datos → modelo → score → decisión → monitoreo → reentrenamiento. Incluye mecanismos de alerta por data drift, PSI mensual, y governance ética. Para el datathon: es el contenido de la diapositiva "Ruta a Producción".</div>
+          </div>
+          <div class="paper-section section-fin">
+            <div class="section-icon">⚠️</div>
+            <div class="section-head">Riesgos Documentados</div>
+            <div class="section-content"><strong>4 barreras reales:</strong> privacidad de datos, sesgo algorítmico, fragmentación regulatoria, brecha digital en zonas rurales. En FinanCrece: <code>zona</code>=Loreto vs Lima tiene impacto diferente — el modelo debe no discriminar por geografía sino capturar condiciones económicas locales.</div>
+          </div>
+        </div>
+        <div class="pitch-quote">
+          <div class="pitch-label">Cita para el pitch — el número más impactante</div>
+          <div class="pitch-text">"Un piloto real con 30,666 casos en un mercado emergente comparable al peruano (Rachbini et al., 2025) logró Gini Index de 82% frente al 64% del modelo tradicional basado en bureau, mejorando simultáneamente la tasa de aprobación en 5 puntos sin incrementar mora. Estos son los benchmarks conservadores de referencia para estimar el impacto de la propuesta para FinanCrece."</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /papers-grid -->
+</div>
+
+<div class="divider"><hr></div>
+
+<!-- BEYOND SECTION -->
+<div class="beyond-section">
+  <div class="section-label">Lo que los papers revelan más allá del encargo original</div>
+  <div class="beyond-grid">
+    <div class="beyond-card">
+      <div class="beyond-num">01</div>
+      <div class="beyond-title">De AUC a Profit Real</div>
+      <div class="beyond-body">El Expected Maximum Profit (EMP) transforma la métrica de "cuánto discrimina el modelo" a "cuánto dinero le genera al banco". Con el ticket promedio y LGD de FinanCrece, se puede calcular el profit exacto de cada variante del modelo — no solo el AUC.</div>
+      <div class="beyond-source">→ Óskarsdóttir et al. (2019)</div>
+    </div>
+    <div class="beyond-card">
+      <div class="beyond-num">02</div>
+      <div class="beyond-title">Counterfactuals: del No al Cómo</div>
+      <div class="beyond-body">En lugar de solo rechazar a un cliente, el modelo puede decirle: "Si reduces tu ratio deuda/ingreso de 4.2× a 2.8×, tu probabilidad de mora baja de 0.67 a 0.38." Es un producto adicional de valor que los competidores no presentarán.</div>
+      <div class="beyond-source">→ Zhang et al. (2026)</div>
+    </div>
+    <div class="beyond-card">
+      <div class="beyond-num">03</div>
+      <div class="beyond-title">Del Modelo al Ecosistema</div>
+      <div class="beyond-body">Un modelo en producción necesita PSI mensual, alertas de data drift, criterio de reentrenamiento cuando Gini cae 5pp, y roles responsables definidos. El jurado valora que el equipo piensa más allá del notebook — y los papers documentan exactamente ese ciclo.</div>
+      <div class="beyond-source">→ Rachbini et al. (2025)</div>
+    </div>
+    <div class="beyond-card">
+      <div class="beyond-num">04</div>
+      <div class="beyond-title">La SBS Debería Promover Esto</div>
+      <div class="beyond-body">El argumento regulatorio no es "¿nos lo permite la SBS?" sino "la SBS debería fomentar este tipo de modelos porque reducen la exclusión financiera sin elevar el riesgo sistémico." El Basel Committee ya lo detectó. El equipo puede adoptar esa postura en el pitch.</div>
+      <div class="beyond-source">→ Roa et al. (2021)</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePaper(btn) {
+  const card = btn.closest('.paper-card');
+  const body = card.querySelector('.paper-body');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+function filterPapers(query, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = 'filter-btn';
+  });
+  if (query === 'all') {
+    btn.classList.add('active-all');
+  } else {
+    btn.classList.add('active-' + query);
+  }
+
+  document.querySelectorAll('.paper-card').forEach(card => {
+    if (query === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      const queries = card.dataset.query || '';
+      card.classList.toggle('hidden', !queries.includes(query));
+    }
+  });
+}
+</script>
+
+</body>
+</html>
